@@ -4,6 +4,12 @@
 	"DisplayName": "VR Third Eye",
 	"Author": "Niko Fox",
 	"EntryMethod": "ThirdEye.Main.Load",
+	"Requirements": [
+		"CameraManager"
+	],
+	"LoadAfter": [
+		"CameraManager"
+	],
 	"ManagerVersion": "0.27.3",
 	"Repository": "https://github.com/OWNER/REPOSITORY/blob/main/repository.json"
 }
