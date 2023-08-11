@@ -11,9 +11,8 @@
 <div align="center">
 	<h1>Unity Mod Manager Mod Template</h1>
 	<p>
-		A template for creating <a href="http://www.derailvalley.com/">Derail Valley</a> mods that load via <a href="https://www.nexusmods.com/site/mods/21">Unity Mod Manager</a>.
-		<br />
-		<br />
+		<a href="">Download Mod</a>
+		·
 		<a href="https://github.com/derail-valley-modding/template-umm/issues">Report Bug</a>
 		·
 		<a href="https://github.com/derail-valley-modding/template-umm/issues">Request Feature</a>
@@ -41,8 +40,7 @@
 
 ## About The Project
 
-This is a template for Derail Valley mods that load via the Unity Mod Manager mod loader.  
-TODO: Instructions for how mod creators use this template.
+A mod for [Derail Valley][derail-valley-url] that adds a central camera when in VR mode.
 
 
 
@@ -115,15 +113,16 @@ See [LICENSE][license-url] for more information.
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/derail-valley-modding/template-umm.svg?style=for-the-badge
-[contributors-url]: https://github.com/derail-valley-modding/template-umm/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/derail-valley-modding/template-umm.svg?style=for-the-badge
-[forks-url]: https://github.com/derail-valley-modding/template-umm/network/members
-[stars-shield]: https://img.shields.io/github/stars/derail-valley-modding/template-umm.svg?style=for-the-badge
-[stars-url]: https://github.com/derail-valley-modding/template-umm/stargazers
-[issues-shield]: https://img.shields.io/github/issues/derail-valley-modding/template-umm.svg?style=for-the-badge
-[issues-url]: https://github.com/derail-valley-modding/template-umm/issues
-[license-shield]: https://img.shields.io/github/license/derail-valley-modding/template-umm.svg?style=for-the-badge
-[license-url]: https://github.com/derail-valley-modding/template-umm/blob/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/fauxnik/dv-vr-third-eye.svg?style=for-the-badge
+[contributors-url]: https://github.com/fauxnik/dv-vr-third-eye/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/fauxnik/dv-vr-third-eye.svg?style=for-the-badge
+[forks-url]: https://github.com/fauxnik/dv-vr-third-eye/network/members
+[stars-shield]: https://img.shields.io/github/stars/fauxnik/dv-vr-third-eye.svg?style=for-the-badge
+[stars-url]: https://github.com/fauxnik/dv-vr-third-eye/stargazers
+[issues-shield]: https://img.shields.io/github/issues/fauxnik/dv-vr-third-eye.svg?style=for-the-badge
+[issues-url]: https://github.com/fauxnik/dv-vr-third-eye/issues
+[license-shield]: https://img.shields.io/github/license/fauxnik/dv-vr-third-eye.svg?style=for-the-badge
+[license-url]: https://github.com/fauxnik/dv-vr-third-eye/blob/master/LICENSE
 [references-url]: https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-your-build?view=vs-2022
 [autocrlf-url]: https://www.git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace
+[derail-valley-url]: http://www.derailvalley.com
