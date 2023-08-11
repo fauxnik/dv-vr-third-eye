@@ -60,7 +60,8 @@ Below is an example of the necessary structure. When creating your targets file,
 <Project>
 	<PropertyGroup>
 		<ReferencePath>
-			C:\Program Files (x86)\Steam\steamapps\common\Derail Valley\DerailValley_Data\Managed\
+			C:\Program Files (x86)\Steam\steamapps\common\Derail Valley\DerailValley_Data\Managed\;
+			C:\Users\whoami\source\repos\dv-camera-manager\build\
 		</ReferencePath>
 		<AssemblySearchPaths>$(AssemblySearchPaths);$(ReferencePath);</AssemblySearchPaths>
 	</PropertyGroup>
