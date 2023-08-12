@@ -3,12 +3,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Object;
+using UnityModManagerNet;
 using static UnityModManagerNet.UnityModManager;
+using static UnityModManagerNet.UnityModManager.ModSettings;
 
 namespace ThirdEye;
 
 public static class Main
 {
+	public static Settings settings = new Settings();
 	public static readonly string CAMERA_NAME = "Camera (third eye)";
 	public static readonly string CAMERA2_NAME = "SecondCamera (third eye)";
 	public static readonly string CAMERA3_NAME = "ThirdCamera (third eye)";
@@ -27,6 +30,19 @@ public static class Main
 			return false;
 		}
 
+		try
+		{
+			settings = Load<Settings>(modEntry);
+		}
+		catch (Exception e)
+		{
+			modEntry.Logger.LogException("Error loading mod settings:", e);
+			settings = new Settings();
+		}
+		modEntry.OnGUI = settings.Draw;
+		modEntry.OnSaveGUI = settings.Save;
+		Settings.OnSettingsChagned += OnSettingsChanged;
+
 		if (!VRManager.IsVREnabled())
 		{
 			modEntry.Logger.Log("ThirdEye only works in VR mode.");
@@ -36,6 +52,17 @@ public static class Main
 		PlayerManager.CameraChanged += OnPlayerCameraChanged;
 
 		return true;
+	}
+
+	private static void OnSettingsChanged()
+	{
+		Camera?[] cameras = { camera, camera2, camera3 };
+		foreach (Camera? camera in cameras)
+		{
+			if (camera == null) { continue; }
+			camera.fieldOfView = settings.fieldOfView;
+			camera.nearClipPlane = settings.nearClipPlane;
+		}
 	}
 
 	private static void OnPlayerCameraChanged()
@@ -92,8 +119,8 @@ public static class Main
 		camera.gameObject.name = name;
 		camera.stereoTargetEye = StereoTargetEyeMask.None;
 		camera.depth += DEPTH_OFFSET;
-		camera.fieldOfView = 60; // TODO: make a mod setting for FOV
-		camera.nearClipPlane = 0.01f; // TODO: make a mod setting for near clip plane
+		camera.fieldOfView = settings.fieldOfView;
+		camera.nearClipPlane = settings.nearClipPlane;
 		return camera;
 	}
 }
