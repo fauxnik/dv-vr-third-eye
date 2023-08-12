@@ -12,11 +12,11 @@ namespace ThirdEye;
 public static class Main
 {
 	public static Settings settings = new Settings();
-	public static readonly string CAMERA_NAME = "Camera (third eye)";
+	public static readonly string CAMERA1_NAME = "Camera (third eye)";
 	public static readonly string CAMERA2_NAME = "SecondCamera (third eye)";
 	public static readonly string CAMERA3_NAME = "ThirdCamera (third eye)";
 	private static readonly int DEPTH_OFFSET = 10;
-	private static Camera? camera;
+	private static Camera? camera1;
 	private static Camera? camera2;
 	private static Camera? camera3;
 
@@ -56,7 +56,7 @@ public static class Main
 
 	private static void OnSettingsChanged()
 	{
-		Camera?[] cameras = { camera, camera2, camera3 };
+		Camera?[] cameras = { camera1, camera2, camera3 };
 		foreach (Camera? camera in cameras)
 		{
 			if (camera == null) { continue; }
@@ -89,16 +89,16 @@ public static class Main
 				return;
 			}
 
-			camera = CloneCamera(playerCamera, CAMERA_NAME);
+			camera1 = CloneCamera(playerCamera, CAMERA1_NAME);
 			camera2 = CloneCamera(secondCamera, CAMERA2_NAME);
 			camera3 = CloneCamera(thirdCamera, CAMERA3_NAME);
 			return;
 		}
 
-		if (camera != null)
+		if (camera1 != null)
 		{
-			Destroy(camera.gameObject);
-			camera = null;
+			Destroy(camera1.gameObject);
+			camera1 = null;
 		}
 		if (camera2 != null)
 		{
