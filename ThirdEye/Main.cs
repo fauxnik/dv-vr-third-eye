@@ -50,7 +50,7 @@ public static class Main
 		{
 			// Derail Valley uses 3 cameras
 			//   1. Camera (eye) - renders most things, depth 0 (Layers 267386643)
-			//   2. SecondCamera - ???, depth 1 (Layer 32)
+			//   2. SecondCamera - renders ???, depth 1 (Layer 32)
 			//   3. ThridCamera  - renders UI, depth 2 (Layer 4)
 			Camera playerCamera = PlayerManager.PlayerCamera;
 			Camera secondCamera = new List<Camera>(Camera.allCameras).Find(cam => cam.name == "SecondCamera");
@@ -62,32 +62,9 @@ public static class Main
 				return;
 			}
 
-			// Camera
-			camera = CameraAPI.CloneCamera(playerCamera, false);
-			camera.gameObject.transform.SetParent(playerCamera.gameObject.transform, false);
-			camera.gameObject.name = CAMERA_NAME;
-			camera.stereoTargetEye = StereoTargetEyeMask.None;
-			camera.depth += DEPTH_OFFSET;
-			camera.fieldOfView = 60; // TODO: make a mod setting for FOV
-			camera.nearClipPlane = 0.01f;
-
-			// Camera 2
-			camera2 = CameraAPI.CloneCamera(secondCamera, false);
-			camera2.gameObject.transform.SetParent(secondCamera.gameObject.transform, false);
-			camera2.gameObject.name = CAMERA2_NAME;
-			camera2.stereoTargetEye = StereoTargetEyeMask.None;
-			camera2.depth += DEPTH_OFFSET;
-			camera2.fieldOfView = 60; // TODO: make a mod setting for FOV
-			camera2.nearClipPlane = 0.01f;
-
-			// Camera 3
-			camera3 = CameraAPI.CloneCamera(thirdCamera, false);
-			camera3.gameObject.transform.SetParent(thirdCamera.gameObject.transform, false);
-			camera3.gameObject.name = CAMERA3_NAME;
-			camera3.stereoTargetEye = StereoTargetEyeMask.None;
-			camera3.depth += DEPTH_OFFSET;
-			camera3.fieldOfView = 60; // TODO: make a mod setting for FOV
-			camera3.nearClipPlane = 0.01f;
+			camera = CloneCamera(playerCamera, CAMERA_NAME);
+			camera2 = CloneCamera(secondCamera, CAMERA2_NAME);
+			camera3 = CloneCamera(thirdCamera, CAMERA3_NAME);
 			return;
 		}
 
@@ -106,5 +83,17 @@ public static class Main
 			Destroy(camera3.gameObject);
 			camera3 = null;
 		}
+	}
+
+	private static Camera CloneCamera(Camera source, string name)
+	{
+		Camera camera = CameraAPI.CloneCamera(source, false);
+		camera.gameObject.transform.SetParent(source.gameObject.transform, false);
+		camera.gameObject.name = name;
+		camera.stereoTargetEye = StereoTargetEyeMask.None;
+		camera.depth += DEPTH_OFFSET;
+		camera.fieldOfView = 60; // TODO: make a mod setting for FOV
+		camera.nearClipPlane = 0.01f; // TODO: make a mod setting for near clip plane
+		return camera;
 	}
 }
