@@ -11,5 +11,5 @@
 		"CameraManager"
 	],
 	"ManagerVersion": "0.27.3",
-	"Repository": "https://github.com/OWNER/REPOSITORY/blob/main/repository.json"
+	"Repository": "https://raw.githubusercontent.com/fauxnik/dv-vr-third-eye/blob/main/repository.json"
 }
