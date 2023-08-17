@@ -14,13 +14,7 @@ public class Settings : UnityModManager.ModSettings, IDrawable
 	[Draw("Near clip plane", DrawType.Slider, Min = 0.01f, Max = 0.1f)]
 	public float nearClipPlane = 0.01f;
 
-	public void OnChange()
-	{
-		if (OnSettingsChagned != null)
-		{
-			OnSettingsChagned();
-		}
-	}
+	public void OnChange() { OnSettingsChagned?.Invoke(); }
 
 	public override void Save(UnityModManager.ModEntry modEntry)
 	{
