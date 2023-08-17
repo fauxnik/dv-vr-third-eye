@@ -19,7 +19,7 @@ public static class Main
 		ModEntry? cameraManagerEntry = FindMod("CameraManager");
 		if (cameraManagerEntry == null || cameraManagerEntry.Active == false)
 		{
-			modEntry.Logger.LogException(new Exception("ThridEye requires CameraManager, but it either isn't installed or isn't active."));
+			modEntry.Logger.LogException(new Exception("Thrid Eye requires Camera Manager, but it either isn't installed or isn't active."));
 			return false;
 		}
 
@@ -38,7 +38,7 @@ public static class Main
 
 		if (!VRManager.IsVREnabled())
 		{
-			modEntry.Logger.Log("ThirdEye only works in VR mode.");
+			modEntry.Logger.Log("Third Eye only works in VR mode.");
 			return true;
 		}
 
