@@ -14,6 +14,9 @@ public class Settings : UnityModManager.ModSettings, IDrawable
 	[Draw("Near clip plane", DrawType.Slider, Min = 0.01f, Max = 0.1f)]
 	public float nearClipPlane = 0.01f;
 
+	[Draw("Show the camera on the PC monitor? (Enabling this may impact performance.)")]
+	public bool showOnPC = false;
+
 	public void OnChange() { OnSettingsChagned?.Invoke(); }
 
 	public override void Save(UnityModManager.ModEntry modEntry)

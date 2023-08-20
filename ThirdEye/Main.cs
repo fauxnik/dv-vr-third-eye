@@ -1,5 +1,7 @@
 ﻿using CameraManager;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Object;
 using UnityModManagerNet;
@@ -10,8 +12,15 @@ namespace ThirdEye;
 
 public static class Main
 {
-	public static Settings settings = new Settings();
-	private static AmalgamCamera? thirdEye;
+	public static Settings settings { get; private set; } = new Settings();
+	public static AmalgamCamera? camera { get; private set; }
+	public static readonly RenderTexture renderTexture = new RenderTexture(Screen.width, Screen.height, 32);
+	private static readonly Dictionary<string, bool> renderRequests = new Dictionary<string, bool>();
+
+	public static void RequestRender(string id, bool on)
+	{
+		renderRequests[id] = on;
+	}
 
 	// Unity Mod Manage Wiki: https://wiki.nexusmods.com/index.php/Category:Unity_Mod_Manager
 	private static bool Load(ModEntry modEntry)
@@ -49,9 +58,9 @@ public static class Main
 
 	private static void OnSettingsChanged()
 	{
-		if (thirdEye == null) { return; }
-		thirdEye.fieldOfView = settings.fieldOfView;
-		thirdEye.nearClipPlane = settings.nearClipPlane;
+		if (camera == null) { return; }
+		camera.fieldOfView = settings.fieldOfView;
+		camera.nearClipPlane = settings.nearClipPlane;
 	}
 
 	private static void OnPlayerCameraChanged()
@@ -64,17 +73,46 @@ public static class Main
 	{
 		if (on)
 		{
-			thirdEye = new GameObject() { name = "ThirdEye" }.AddComponent<AmalgamCamera>();
-			thirdEye.Init(CameraManager.CameraType.All);
-			thirdEye.gameObject.transform.SetParent(PlayerManager.PlayerCamera.gameObject.transform, false);
-			thirdEye.stereoTargetEye = StereoTargetEyeMask.None;
-			thirdEye.fieldOfView = settings.fieldOfView;
-			thirdEye.nearClipPlane = settings.nearClipPlane;
+			GameObject gameObject = new GameObject() { name = "ThirdEye" };
+
+			camera = gameObject.AddComponent<AmalgamCamera>();
+			camera.Init(CameraManager.CameraType.All);
+			camera.enabled = false;
+			camera.gameObject.transform.SetParent(PlayerManager.PlayerCamera.gameObject.transform, false);
+			camera.stereoTargetEye = StereoTargetEyeMask.None;
+			camera.targetTexture = renderTexture;
+			OnSettingsChanged();
+
+			gameObject.AddComponent<ThirdEyeRenderer>();
+
 			return;
 		}
 
-		if (thirdEye == null) { return; }
-		Destroy(thirdEye);
-		thirdEye = null;
+		if (camera == null) { return; }
+		Destroy(camera);
+		camera = null;
+	}
+
+	class ThirdEyeRenderer : MonoBehaviour
+	{
+		public IEnumerator Start()
+		{
+			while (this.enabled)
+			{
+				yield return new WaitForEndOfFrame();
+
+				if (camera == null) { continue; }
+
+				if (settings.showOnPC || renderRequests.ContainsValue(true))
+				{
+					camera.Render();
+				}
+
+				if (settings.showOnPC)
+				{
+					Graphics.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), renderTexture);
+				}
+			}
+		}
 	}
 }
