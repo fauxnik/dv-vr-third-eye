@@ -1,6 +1,6 @@
 {
 	"Id": "ThirdEye",
-	"Version": "1.0.0",
+	"Version": "1.1.0-beta.1",
 	"DisplayName": "VR Third Eye",
 	"Author": "Niko Fox",
 	"EntryMethod": "ThirdEye.Main.Load",
