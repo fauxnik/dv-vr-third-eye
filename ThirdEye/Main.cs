@@ -1,4 +1,5 @@
 ﻿using CameraManager;
+using static CameraManager.CameraType;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,6 +62,7 @@ public static class Main
 		if (camera == null) { return; }
 		camera.fieldOfView = settings.fieldOfView;
 		camera.nearClipPlane = settings.nearClipPlane;
+		camera.enabled = settings.showOnPC;
 	}
 
 	private static void OnPlayerCameraChanged()
@@ -74,13 +76,11 @@ public static class Main
 		if (on)
 		{
 			GameObject gameObject = new GameObject() { name = "ThirdEye" };
+			gameObject.transform.SetParent(CameraAPI.GetCamera(World).gameObject.transform, false);
 
 			camera = gameObject.AddComponent<AmalgamCamera>();
 			camera.Init(CameraManager.CameraType.All);
-			camera.enabled = false;
-			camera.gameObject.transform.SetParent(PlayerManager.PlayerCamera.gameObject.transform, false);
 			camera.stereoTargetEye = StereoTargetEyeMask.None;
-			camera.targetTexture = renderTexture;
 			OnSettingsChanged();
 
 			gameObject.AddComponent<ThirdEyeRenderer>();
@@ -89,7 +89,7 @@ public static class Main
 		}
 
 		if (camera == null) { return; }
-		Destroy(camera);
+		Destroy(camera.gameObject);
 		camera = null;
 	}
 
@@ -99,18 +99,25 @@ public static class Main
 		{
 			while (this.enabled)
 			{
-				yield return new WaitForEndOfFrame();
+				yield return null;
 
 				if (camera == null) { continue; }
 
-				if (settings.showOnPC || renderRequests.ContainsValue(true))
+				if (renderRequests.ContainsValue(true))
 				{
+					camera.targetTexture = renderTexture;
 					camera.Render();
+					camera.targetTexture = null;
 				}
+
+				yield return new WaitForEndOfFrame();
 
 				if (settings.showOnPC)
 				{
-					Graphics.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), renderTexture);
+					// TODO: can the render texture be reused to improve performance?
+					//   So far, this has not worked. The third eye camera image has appeared blended with the VR camera image.
+					// GL.Clear(true, true, Color.magenta, 1);
+					// Graphics.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), renderTexture);
 				}
 			}
 		}
