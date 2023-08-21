@@ -99,7 +99,7 @@ public static class Main
 		{
 			while (this.enabled)
 			{
-				yield return null;
+				yield return new WaitForEndOfFrame();
 
 				if (camera == null) { continue; }
 
@@ -109,8 +109,6 @@ public static class Main
 					camera.Render();
 					camera.targetTexture = null;
 				}
-
-				yield return new WaitForEndOfFrame();
 
 				if (settings.showOnPC)
 				{
