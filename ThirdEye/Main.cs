@@ -1,5 +1,4 @@
 ﻿using CameraManager;
-using static CameraManager.CameraType;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +16,9 @@ public static class Main
 	public static AmalgamCamera? camera { get; private set; }
 	public static readonly RenderTexture renderTexture = new RenderTexture(Screen.width, Screen.height, 32);
 	private static readonly Dictionary<string, bool> renderRequests = new Dictionary<string, bool>();
+
+	// Workaround (part 1/3) for UI camera causing PC black screen, base game build 98+
+	private static readonly RenderTexture uiTexture = new RenderTexture(renderTexture);
 
 	public static void RequestRender(string id, bool on)
 	{
@@ -63,6 +65,12 @@ public static class Main
 		camera.fieldOfView = settings.fieldOfView;
 		camera.nearClipPlane = settings.nearClipPlane;
 		camera.enabled = settings.showOnPC;
+
+		// Workaround (part 2/3) for UI camera causing PC black screen, base game build 98+
+		if (settings.showOnPC && camera.GetCamera(CameraManager.CameraType.UI) is Camera uiCamera)
+		{
+			uiCamera.enabled = false;
+		}
 	}
 
 	private static void OnPlayerCameraChanged()
@@ -76,7 +84,7 @@ public static class Main
 		if (on)
 		{
 			GameObject gameObject = new GameObject() { name = "ThirdEye" };
-			gameObject.transform.SetParent(CameraAPI.GetCamera(World).gameObject.transform, false);
+			gameObject.transform.SetParent(CameraAPI.GetCamera(CameraManager.CameraType.World).gameObject.transform, false);
 
 			camera = gameObject.AddComponent<AmalgamCamera>();
 			camera.Init(CameraManager.CameraType.All);
@@ -116,6 +124,16 @@ public static class Main
 					//   So far, this has not worked. The third eye camera image has appeared blended with the VR camera image.
 					// GL.Clear(true, true, Color.magenta, 1);
 					// Graphics.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), renderTexture);
+
+					// Workaround (part 3/3) for UI camera causing PC black screen, base game build 98+
+					if (camera.GetCamera(CameraManager.CameraType.UI) is Camera uiCamera)
+					{
+						Utilities.ClearTexture(uiTexture);
+						uiCamera.targetTexture = uiTexture;
+						uiCamera.Render();
+						uiCamera.targetTexture = null;
+						Graphics.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), uiTexture);
+					}
 				}
 			}
 		}
