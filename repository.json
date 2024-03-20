@@ -2,6 +2,11 @@
 	"Releases": [
 		{
 			"Id": "ThirdEye",
+			"Version": "1.1.1",
+			"DownloadUrl": "https://github.com/fauxnik/dv-vr-third-eye/releases/download/v1.1.1/ThirdEye_v1.1.1.zip"
+		},
+		{
+			"Id": "ThirdEye",
 			"Version": "1.1.0",
 			"DownloadUrl": "https://github.com/fauxnik/dv-vr-third-eye/releases/download/v1.1.0/ThirdEye_v1.1.0.zip"
 		},
