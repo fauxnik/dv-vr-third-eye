@@ -9,9 +9,9 @@
 
 <!-- PROJECT TITLE -->
 <div align="center">
-	<h1>Unity Mod Manager Mod Template</h1>
+	<h1>VR Third Eye</h1>
 	<p>
-		<a href="">Download Mod</a>
+		<a href="https://www.nexusmods.com/derailvalley/mods/762">Download Mod</a>
 		·
 		<a href="https://github.com/derail-valley-modding/template-umm/issues">Report Bug</a>
 		·
